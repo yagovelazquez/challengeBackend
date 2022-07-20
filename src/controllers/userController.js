@@ -65,16 +65,17 @@ module.exports = {
             attributes: { exclude: ["userId", "id"] },
           },
         ],
-        attributes: ["name", "occupation", "id"],
+        attributes: ["name","type", "occupation", "id"],
         order: [["ClockTimes", "clockIn", "DESC"]],
         where: { id },
       });
 
-      const { name, occupation, ClockTimes, Files } = dbUser.dataValues;
+      const { name, occupation, ClockTimes, Files, type } = dbUser.dataValues;
 
       res.json({
         name,
         occupation,
+        type,
         clockTimes: ClockTimes,
         expiresIn: exp,
         files: Files,

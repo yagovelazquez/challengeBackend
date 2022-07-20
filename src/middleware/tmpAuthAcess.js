@@ -6,7 +6,7 @@ module.exports = (word) => {
   
   return async function (req, res, next) {
 
-    console.log('aq??')
+
 
     const { id } = req.user;
     const text = req.originalUrl

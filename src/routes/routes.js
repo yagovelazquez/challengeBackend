@@ -9,6 +9,7 @@ const uploadSingleFile = require("../middleware/uploadSingleFile");
 const createUserFolder = require("../middleware/createUserFolder");
 const {validateClockTime,validateUser, validateAuth} = require("./validation")
 const validator = require("../middleware/validator")
+const privilleges = require("../middleware/acessPrivilleges")
 
 const authController = require("../controllers/authController");
 const userController = require("../controllers/userController");
@@ -29,7 +30,7 @@ routes.post("/user",validator(validateUser),userController.storeUser);
 routes.get("/user", auth, userController.getUser);
 routes.put("/user", auth, userController.updateUser);
 
-routes.get("/all-users", auth, userController.getAllUsers);
+routes.get("/all-users",  [auth, privilleges("admin")], userController.getAllUsers);
 
 
 routes.post(
@@ -48,13 +49,11 @@ routes.delete("/upload/contract", auth, uploadFilesController.deleteContract);
 
 routes.get(
   "/reports/all-total-hours-worked",
-  auth,
+  [auth, privilleges("admin")],
   reportController.getAllUserWorkedHours
 );
-routes.post("/reports/total-break-time", reportController.getTotalBreakTime);
-routes.get(
-  "/reports", auth, 
-);
+routes.get("/reports/user-total-hours-worked",auth ,reportController.getUserTotalWorkedHours);
+
 
 routes.post("/clock-timer/clock-in", [validator(validateClockTime), auth], clockTimeController.storeClockIn);
 routes.post(

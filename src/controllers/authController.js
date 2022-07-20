@@ -27,7 +27,7 @@ module.exports = {
           },
         ],
         order: [["ClockTimes", "clockIn", "DESC"]],
-        attributes: ["name", "occupation", "id"],
+        attributes: ["name", "occupation","type", "id"],
         where: { pin },
       });
 
@@ -37,18 +37,21 @@ module.exports = {
           .json({ error: "Could not find an user associated with this pin." });
       }
 
-      const { id, name, occupation, ClockTimes, Files } = dbUser.dataValues;
+      const { id, name, occupation, ClockTimes, Files,type } = dbUser.dataValues;
 
-      const token = User.generateAuthToken({ id });
+      const token = User.generateAuthToken({ id,type });
+
+   
 
       return res
-        .header({ token: token.value })
+        .header({ token: token.value})
         .json({
           name,
           occupation,
           clockTimes: ClockTimes,
           expiresIn: token.expiresIn,
-          files: Files
+          files: Files,
+          type
         });
     } catch (error) {
       res.status(400).json(error);

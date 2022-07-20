@@ -10,5 +10,5 @@ app.use(routes);
 
 const port = appPort || 3003;
 app.listen(port, () =>
-  console.log(`Listening on port ${port}...`)
+  (`Listening on port ${port}...`)
 );

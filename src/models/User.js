@@ -16,10 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
 
-    static generateAuthToken = function ({ id }) {
+    static generateAuthToken = function ({ id,type }) {
       const expiresIn = Math.floor(Date.now() / 1000) + 60 * 60;
       const token = jwt.sign(
-        { id, exp: expiresIn },
+        { id, exp: expiresIn, type },
         privateJwtKey
       );
       return { value: token, expiresIn };
